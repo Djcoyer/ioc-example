@@ -1,0 +1,24 @@
+# Gradle build directory
+.gradle/
+
+# Gradle wrapper directory
+gradle/wrapper/
+
+# Built artifacts
+build/
+
+# IDE-specific files
+*.iml
+.idea/
+*.iws
+
+# Local build properties
+local.properties
+
+# Log files
+*.log
+
+# OS-specific temporary files
+*.DS_Store
+Thumbs.db
+
