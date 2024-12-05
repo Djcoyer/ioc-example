@@ -3,7 +3,6 @@ import org.reflections.util.ClasspathHelper;
 import util.Inject;
 import util.Injectable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
 import java.util.*;
@@ -39,13 +38,15 @@ public class IocContainer {
         this.classMap.put(interfaceType, instance);
     }
 
-    public <T> T getInstance(Class<T> classToGet) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        if (classToGet.isInterface()) {
-            return this.getInterfaceInstance(classToGet);
-        }
-        else if (!this.classMap.containsKey(classToGet)) {
-            this.registerClass(classToGet);
-        }
+    public <T> T getInstance(Class<T> classToGet) {
+        try {
+            if (classToGet.isInterface()) {
+                return this.getInterfaceInstance(classToGet);
+            }
+            else if (!this.classMap.containsKey(classToGet)) {
+                this.registerClass(classToGet);
+            }
+        } catch(Exception e) {}
 
         return classToGet.cast(this.classMap.get(classToGet));
     }
@@ -74,7 +75,7 @@ public class IocContainer {
                 try {
                     var fieldInstance = this.getInstance(field.getType());
                     field.set(instance, fieldInstance);
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
